@@ -1,0 +1,26 @@
+# используем язык java.
+language: java
+
+# используем jdk15.
+jdk:
+  - openjdk15
+
+# используем режим обычного пользователя для сборки проекта.
+sudo: false
+
+env:
+  global:
+    - CODECOV_TOKEN="fc305310-80c0-41dd-a208-cbf5e797ac87"
+
+# после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
+# Здесь используется сторонни сервис https://codecov.io/
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+# Отправлять уведомление на почту ruslandav@yandex.ru если сборка упала.
+notifications:
+  email:
+    recipients:
+      -ruslandav@yandex.ru
+    on_success: never # default: change
+    on_failure: always # default: always
