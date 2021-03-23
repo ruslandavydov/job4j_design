@@ -27,7 +27,7 @@ public class SimpleArrayList<T> implements Iterable<T> {
 
     private void resizeIfNeeded() {
         if (array.length == size) {
-            Objects[] newArray = new Objects[array.length + 1];
+            Objects[] newArray = new Objects[array.length * 2];
             System.arraycopy(array, 0, newArray, 0, size);
             array = newArray;
         }
@@ -41,7 +41,7 @@ public class SimpleArrayList<T> implements Iterable<T> {
 
     public void remove(int index) {
         Objects.checkIndex(index, size);
-        System.arraycopy(array, index + 1, array, index, size - 1);
+        System.arraycopy(array, index + 1, array, index, array.length - 1);
         size--;
         modCount++;
     }
