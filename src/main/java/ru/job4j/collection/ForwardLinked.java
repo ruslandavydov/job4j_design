@@ -14,11 +14,13 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     private Node<T> head;
+    public int size = 0;
 
     public void add(T element) {
         Node<T> node = new Node<T>(element);
         if (head == null) {
             head = node;
+            size++;
             return;
         }
         Node<T> tail = head;
@@ -26,22 +28,26 @@ public class ForwardLinked<T> implements Iterable<T> {
             tail = tail.next;
         }
         tail.next = node;
+        size++;
     }
 
     public void addFirst(T element) {
         Node<T> node = new Node<T>(element);
         if (head == null) {
             head = node;
+            size++;
             return;
         }
         node.next = head;
         head = node;
+        size++;
     }
 
     public T deleteFirst() {
         if (head != null) {
             T result = head.element;
             head = head.next;
+            size--;
             return result;
         }
         throw new NoSuchElementException();

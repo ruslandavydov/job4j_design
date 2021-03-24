@@ -31,4 +31,20 @@ public class SimpleStackTest {
         stack.pop();
         assertThat(stack.pop(), is(1));
     }
+
+    @Test
+    public void whenIsNotEmpty() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
+        stack.push(1);
+        stack.push(2);
+        assertThat(stack.isEmpty(), is(false));
+    }
+
+    @Test
+    public void whenIsEmpty() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
+        stack.push(1);
+        stack.pop();
+        assertThat(stack.isEmpty(), is(true));
+    }
 }
