@@ -65,11 +65,10 @@ public class SimpleLinkedList<E> implements List<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                if (mark != 0) {
-                    current = current.next;
-                }
+                E volume = current.element;
+                current = current.next;
                 mark++;
-                return current.element;
+                return volume;
             }
         };
     }
