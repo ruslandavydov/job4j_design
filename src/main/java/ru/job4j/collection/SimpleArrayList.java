@@ -41,7 +41,7 @@ public class SimpleArrayList<T> implements Iterable<T> {
 
     public void remove(int index) {
         Objects.checkIndex(index, size);
-        System.arraycopy(array, index + 1, array, index, array.length - 1);
+        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
         size--;
         modCount++;
     }
