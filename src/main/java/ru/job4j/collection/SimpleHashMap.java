@@ -51,7 +51,7 @@ public class SimpleHashMap<K, V> implements Iterable {
       boolean result = false;
       int i = getIndex(key);
       Node<K, V> e = table[i];
-      if (e.hash == key.hashCode() && (e.key == key || e.key.equals(key))) {
+      if (e != null && e.hash == key.hashCode() && (e.key == key || e.key.equals(key))) {
          table[i] = null;
          result = true;
          size--;
