@@ -1,13 +1,16 @@
 package ru.job4j.collection;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleHashMap<K, V> implements Iterable {
    private Node<K, V>[] table;
    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+   private static final double LOAD_FACTOR = 0.75;
    private int size = 0;
    private int capacity;
+   private int modCount;
 
    public SimpleHashMap() {
       this.capacity = DEFAULT_INITIAL_CAPACITY;
@@ -17,17 +20,19 @@ public class SimpleHashMap<K, V> implements Iterable {
    public boolean insert(K key, V value) {
       boolean result = true;
       Node<K, V> e;
-      if (size >= 0.75 * capacity) {
+      if (size >= LOAD_FACTOR * capacity) {
          resize();
       }
       int i = getIndex(key);
       if (table[i] == null) {
          table[i] = new Node<>(key.hashCode(), key, value, null);
          size++;
+         modCount++;
       } else {
          e = table[i];
          if (e.hash == key.hashCode() && (e.key == key || e.key.equals(key))) {
             e.value = value;
+            modCount++;
          } else {
             result = false;
          }
@@ -55,6 +60,7 @@ public class SimpleHashMap<K, V> implements Iterable {
          table[i] = null;
          result = true;
          size--;
+         modCount++;
       }
       return result;
    }
@@ -106,10 +112,11 @@ public class SimpleHashMap<K, V> implements Iterable {
       return new Iterator() {
          private int index;
          Node<K, V> e = table[index];
+         private int expectedModCount = modCount;
 
          @Override
          public boolean hasNext() {
-            while ((index < (capacity - 1)) && e == null) {
+            if ((index < (capacity - 1)) && e == null) {
                index++;
                e = table[index];
             }
@@ -119,7 +126,10 @@ public class SimpleHashMap<K, V> implements Iterable {
          @Override
          public Object next() {
             if (!hasNext()) {
-               throw new NoSuchElementException("Element not found");
+               throw new NoSuchElementException();
+            }
+            if (expectedModCount != modCount) {
+               throw new ConcurrentModificationException();
             }
             Node<K, V> result = e;
             if (e.next != null) {
