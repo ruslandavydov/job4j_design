@@ -116,7 +116,7 @@ public class SimpleHashMap<K, V> implements Iterable {
 
          @Override
          public boolean hasNext() {
-            if ((index < (capacity - 1)) && e == null) {
+            while ((index < (capacity - 1)) && e == null) {
                index++;
                e = table[index];
             }
