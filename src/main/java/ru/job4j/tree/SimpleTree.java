@@ -40,9 +40,10 @@ public class SimpleTree<E> implements Tree<E> {
     @Override
     public boolean add(E parent, E child) {
         boolean rsl = false;
+        Optional<Node<E>> parentNode = findBy(parent);
         Node<E> newNode = new Node<>(child);
-        if (findBy(parent).isPresent()) {
-            findBy(parent).get().children.add(newNode);
+        if (parentNode.isPresent()) {
+            parentNode.get().children.add(newNode);
             rsl = true;
         }
         return rsl;
@@ -50,17 +51,7 @@ public class SimpleTree<E> implements Tree<E> {
 
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty();
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.value.equals(value)) {
-                rsl = Optional.of(el);
-                break;
-            }
-            data.addAll(el.children);
-        }
-        return rsl;
+        Predicate<Node<E>> find = x -> x.value.equals(value);
+        return findByPredicate(find);
     }
 }
