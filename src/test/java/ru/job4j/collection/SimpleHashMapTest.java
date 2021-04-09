@@ -74,4 +74,11 @@ public class SimpleHashMapTest {
         assertThat(it.hasNext(), is(false));
         it.next();
     }
+
+    @Test
+    public void whenAddSame() {
+        map = new SimpleHashMap<>();
+        map.insert(3, "three");
+        assertTrue(map.iterator().hasNext());
+    }
 }

@@ -134,14 +134,9 @@ public class SimpleHashMap<K, V> implements Iterable {
             Node<K, V> result = e;
             if (e.next != null) {
                e = e.next;
-            } else {
-               while (index < capacity - 1) {
-                  index++;
-                  e = table[index];
-                  if (e != null) {
-                     break;
-                  }
-               }
+            } else if (index < capacity - 1) {
+               index++;
+               e = table[index];
             }
             return result;
          }
