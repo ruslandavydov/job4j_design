@@ -26,4 +26,11 @@ public class ConfigTest {
         assertThat(config.value("mentor"), is("Rail Shamsemuhametov"));
         assertThat(config.value("student"), is("Ruslan Davydov"));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenPairWithWrong() {
+        String path = "./data/pair_with_wrong.properties";
+        Config config = new Config(path);
+        config.load();
+    }
 }

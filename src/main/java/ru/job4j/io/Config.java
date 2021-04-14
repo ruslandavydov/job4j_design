@@ -17,8 +17,13 @@ public class Config {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             while (br.ready()) {
                 String st = br.readLine();
-                if (!st.startsWith("//") && !st.startsWith("##") && !st.isEmpty()) {
-                    values.put(st.split("=")[0].trim(), st.split("=")[1].trim());
+                if (!st.startsWith("#") && !st.isEmpty()) {
+                    String[] sp = st.split("=");
+                    if (sp.length != 2) {
+                        throw new IllegalArgumentException();
+                    } else {
+                        values.put(sp[0], sp[1]);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -27,13 +32,7 @@ public class Config {
     }
 
     public String value(String key) {
-        String rsl;
-        try {
-            rsl = values.get(key);
-        } catch (UnsupportedOperationException e) {
-            throw new UnsupportedOperationException("Don't impl this method yet!");
-        }
-        return rsl;
+        return values.get(key);
     }
 
     @Override
