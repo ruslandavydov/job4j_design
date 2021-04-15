@@ -15,8 +15,7 @@ public class Config {
 
     public void load() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            while (br.ready()) {
-                String st = br.readLine();
+            for (String st = br.readLine(); st != null; st = br.readLine()) {
                 if (!st.startsWith("#") && !st.isEmpty()) {
                     String[] sp = st.split("=");
                     if (sp.length != 2) {
