@@ -19,8 +19,8 @@ public class AnalizyTest {
         try (BufferedReader read = new BufferedReader(new FileReader(target))) {
             assertThat(read.readLine(), is("10:57:01;10:59:01;"));
             assertThat(read.readLine(), is("11:01:02;11:02:02;"));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
