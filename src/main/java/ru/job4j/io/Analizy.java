@@ -7,23 +7,29 @@ import java.util.List;
 public class Analizy {
     private String start;
     private String finish;
+    private boolean workStatus;
 
     public void unavailable(String source, String target) {
         try (BufferedReader in = new BufferedReader(new FileReader(source));
-             PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
-            List<String> lines = new ArrayList<>();
-            StringBuilder rsl = new StringBuilder();
+             PrintWriter out = new PrintWriter(new FileWriter(target))) {
+            List<String> listLine = new ArrayList<>();
+            StringBuilder result = new StringBuilder();
             while (in.ready()) {
-                if (in.readLine().startsWith("400") || in.readLine().startsWith("500")) {
-                    start = in.readLine().split(" ")[1];
-                } else if (in.readLine().startsWith("200") || in.readLine().startsWith("300")) {
-                    finish = in.readLine().split(" ")[1];
+                String line = in.readLine();
+                if (!line.isEmpty()) {
+                    if ((line.startsWith("400") || line.startsWith("500")) && !workStatus) {
+                        start = line.split(" ")[1];
+                        workStatus = true;
+                    } else if ((line.startsWith("200") || line.startsWith("300")) && workStatus) {
+                        finish = line.split(" ")[1];
+                        result.append(String.format("%s;%s", start, finish));
+                        listLine.add(result.toString());
+                        result = new StringBuilder();
+                        workStatus = false;
+                    }
                 }
-                rsl.append(String.format("%s;%s", start, finish));
-                lines.add(rsl.toString());
-                rsl = new StringBuilder();
             }
-            for (String line : lines) {
+            for (String line : listLine) {
                 out.println(line);
             }
         } catch (IOException e) {
