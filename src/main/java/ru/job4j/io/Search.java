@@ -9,7 +9,7 @@ public class Search {
 
     public static void main(String[] args) throws IOException {
         Path start = Paths.get("/Users/Nastya/projects");
-        search(start, path -> path.toFile().getName().endsWith(".java")).forEach(System.out::println);
+        search(start, path -> path.toFile().getName().endsWith("java")).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
