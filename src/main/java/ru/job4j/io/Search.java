@@ -6,10 +6,22 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Search {
+    private String rootDirectory;
+    private String fileExtension;
+
+    public Search(String rootDirectory, String fileExtension) {
+        this.rootDirectory = rootDirectory;
+        this.fileExtension = fileExtension;
+    }
 
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get("/Users/Nastya/projects");
-        search(start, path -> path.toFile().getName().endsWith("java")).forEach(System.out::println);
+        Search file = new Search(args[0], "java");
+        Path start = Paths.get(file.rootDirectory);
+        search(start, path -> path
+                .toFile()
+                .getName()
+                .endsWith(file.fileExtension))
+                .forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
