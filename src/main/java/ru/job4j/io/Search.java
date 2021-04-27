@@ -15,6 +15,9 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            throw new IllegalArgumentException();
+        }
         Search file = new Search(args[0], "java");
         Path start = Paths.get(file.rootDirectory);
         search(start, path -> path
