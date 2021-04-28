@@ -15,10 +15,10 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
+        if (args.length != 2) {
             throw new IllegalArgumentException();
         }
-        Search file = new Search(args[0], "java");
+        Search file = new Search(args[0], args[1]);
         Path start = Paths.get(file.rootDirectory);
         search(start, path -> path
                 .toFile()
